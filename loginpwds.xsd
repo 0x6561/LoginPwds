@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:simpleType name="stringtype">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="inttype">
+    <xs:restriction base="xs:positiveInteger"/>
+  </xs:simpleType>
+
+   <xs:simpleType name="dectype">
+    <xs:restriction base="xs:decimal"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="secure_hash_algorithm">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="encryption_algorithm_info">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="initialization_vector">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="salt">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="keychain_username">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="keychain_password">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:simpleType name="website">
+    <xs:restriction base="xs:string"/>
+  </xs:simpleType>
+
+  <xs:complexType name="secretquestion">
+    <xs:sequence> 
+      <xs:element name="secret_question" type="stringtype"/>
+      <xs:element name="secret_answer" type="stringtype"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="account">
+    <xs:sequence>
+      <xs:element name="account_name" minOccurs="1" maxOccurs="1" type="stringtype"/>
+      <xs:element name="login_id" minOccurs="0" maxOccurs="1" type="stringtype"/>
+      <xs:element name="password" minOccurs="1" maxOccurs="1" type="stringtype"/>
+      <xs:element name="password_set_date" minOccurs="1" maxOccurs="1" type="stringtype"/>
+      <xs:element name="notes" minOccurs="1" maxOccurs="1" type="stringtype"/>
+      <xs:element name="secret_question" minOccurs="0" maxOccurs="unbounded" type="secretquestion"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="key">
+    <xs:sequence>
+      <xs:element name="key_name" minOccurs="1" maxOccurs="1" type="stringtype"/>
+      <xs:element name="website" minOccurs="1" maxOccurs="1" type="website"/>
+      <xs:element name="account" minOccurs="1" maxOccurs="unbounded" type="account"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="keyring">
+    <xs:sequence>
+      <xs:element name="key" minOccurs="1" maxOccurs="unbounded" type="key"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="cipher_info">
+    <xs:sequence>
+      <xs:element name="secure_hash_algorithm" minOccurs="1" maxOccurs="1" type="secure_hash_algorithm"/>
+      <xs:element name="encryption_algorithm_info" minOccurs="1" maxOccurs="1" type="encryption_algorithm_info"/>
+      <xs:element name="initialization_vector" minOccurs="1" maxOccurs="1" type="initialization_vector"/>
+      <xs:element name="salt" minOccurs="1" maxOccurs="1" type="salt"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="keychain_owner">
+    <xs:sequence>
+      <xs:element name="keychain_username" type="keychain_username"/>
+      <xs:element name="keychain_password" type="keychain_password"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:element name="keychain">
+  <xs:complexType>
+    <xs:sequence>
+      <xs:element name="keychain_owner" minOccurs="1" maxOccurs="1" type="keychain_owner"/>
+      <xs:element name="cipher_info" minOccurs="1" maxOccurs="1" type="cipher_info"/>
+      <xs:element name="keyring" minOccurs="1" maxOccurs="1" type="keyring"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:element>
+
+</xs:schema>
